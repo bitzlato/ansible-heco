@@ -1,0 +1,25 @@
+---
+- name: "Create {{ heco_sevice_name }} systemd service"
+  template:
+    src: heco.service.j2
+    dest: "{{ heco_service_dir }}/{{ heco_sevice_name }}.service"
+    mode: 0644
+
+- name: "get {{ heco_user_name }} uid"
+  getent:
+    database: passwd
+    key: "{{ heco_user_name }}"
+- debug:
+    var: getent_passwd['{{ heco_user_name }}'][1]
+
+- name: "Start and enable {{ heco_sevice_name }} service"
+  become: true
+  become_user: "{{ heco_user_name }}"
+  systemd:
+    name: "{{ heco_sevice_name }}.service"
+    scope: user
+    daemon_reload: yes
+    enabled: "{{ heco_service_enabled }}"
+    state: "{{ heco_service_state }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ ansible_facts['getent_passwd'][heco_user_name][1] }}"
