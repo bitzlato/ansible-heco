@@ -5,21 +5,25 @@
     dest: "{{ heco_service_dir }}/{{ heco_sevice_name }}.service"
     mode: 0644
 
-- name: "get {{ heco_user_name }} uid"
-  getent:
-    database: passwd
-    key: "{{ heco_user_name }}"
-- debug:
-    var: getent_passwd['{{ heco_user_name }}'][1]
+- name: "Find uid of {{ heco_user_name }}"
+  command: "id -u {{ heco_user_name }}"
+  register: the_user_uid
+  check_mode: no
+  changed_when: false
+
+- name: "Determine XDG_RUNTIME_DIR"
+  set_fact:
+    xdg_runtime_dir: "/run/user/{{ the_user_uid.stdout }}"
+  changed_when: false
 
 - name: "Start and enable {{ heco_sevice_name }} service"
   become: true
   become_user: "{{ heco_user_name }}"
+  environment:
+    XDG_RUNTIME_DIR: "{{ xdg_runtime_dir }}"
   systemd:
-    name: "{{ heco_sevice_name }}.service"
     scope: user
     daemon_reload: yes
+    name: "{{ heco_sevice_name }}.service"
     enabled: "{{ heco_service_enabled }}"
     state: "{{ heco_service_state }}"
-  environment:
-    XDG_RUNTIME_DIR: "/run/user/{{ ansible_facts['getent_passwd'][heco_user_name][1] }}"

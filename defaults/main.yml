@@ -4,7 +4,7 @@ heco_sevice_name: heco
 heco_golang_version: "1.17"
 heco_root: "/home/{{ heco_user_name }}/heco"
 heco_data: "{{ heco_root}}/data"
-heco_config: "{{ heco_data }}/config.toml"
+heco_config: "{{ heco_data }}/heco.toml"
 heco_geth_path: "{{ heco_root }}/huobi-eco-chain/build/bin/geth"
 heco_service_dir: "/home/{{ heco_user_name }}/.config/systemd/user/"
 heco_ip_host: '127.0.0.1'
@@ -13,68 +13,3 @@ heco_httpport: 8545
 heco_wsport: 8546
 heco_service_enabled: 'No' # yes
 heco_service_state: 'stopped' # started
-config_toml_cfg: |
-  [Eth]
-  SyncMode = "fast"
-  DiscoveryURLs = []
-  TrieCleanCacheRejournal= 300000000000
-  
-  [Eth.Miner]
-  GasFloor = 8000000
-  GasCeil = 8000000
-  GasPrice = 0
-  Recommit = 3000000000
-  Noverify = false
-  
-  [Eth.Ethash]
-  CacheDir = "ethash"
-  CachesInMem = 2
-  CachesOnDisk = 3
-  CachesLockMmap = false
-  DatasetDir = "/home/ubuntu/heco/data/.ethash"
-  DatasetsInMem = 1
-  DatasetsOnDisk = 2
-  DatasetsLockMmap = false
-  PowMode = 0
-  
-  [Eth.TxPool]
-  Locals = []
-  NoLocals = false
-  Journal = "transactions.rlp"
-  Rejournal = 3600000000000
-  PriceLimit = 1
-  PriceBump = 10
-  AccountSlots = 16
-  GlobalSlots = 4096
-  AccountQueue = 64
-  GlobalQueue = 1024
-  Lifetime = 10800000000000
-  
-  [Node]
-  DataDir = "{{ heco_data }}"
-  InsecureUnlockAllowed = true
-  NoUSB = true
-  IPCPath = "geth.ipc"
-  HTTPHost = '"{{ heco_ip_host }}"'
-  HTTPPort = "{{ heco_httpport }}"
-  HTTPCors = ["*"]
-  HTTPVirtualHosts = ["*"]
-  HTTPModules = ["eth", "net", "web3", "personal", "txpool", "parlia"]
-  
-  WSHost = '"{{ heco_ip_host }}"'
-  WSPort = "{{ heco_wsport }}"
-  WSModules = ['eth', 'net', 'web3']
-  
-  GraphQLVirtualHosts = ["localhost"]
-  
-  [Node.P2P]
-  MaxPeers = 500
-  NoDiscovery = false
-  
-  ListenAddr = ":32668"
-  EnableMsgEvents = false
-  
-  [Node.HTTPTimeouts]
-  ReadTimeout = 30000000000
-  WriteTimeout = 30000000000
-  IdleTimeout = 120000000000

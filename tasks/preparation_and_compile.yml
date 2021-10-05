@@ -20,6 +20,9 @@
     - "{{ heco_service_dir }}"
     - "{{ heco_data }}/logs"
 
+- name: "Enable linger for {{ heco_user_name }}"
+  command: "loginctl enable-linger {{ heco_user_name }}"
+
 - name: "Download source code hecochain"
   ansible.builtin.git:
     repo: "{{ heco_repo }}"
