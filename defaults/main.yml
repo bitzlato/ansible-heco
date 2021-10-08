@@ -1,5 +1,5 @@
 ---
-heco_user_name: ubuntu
+heco_user_name: heco
 heco_sevice_name: heco
 heco_golang_version: "1.17"
 heco_root: "/home/{{ heco_user_name }}/heco"

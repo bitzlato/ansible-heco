@@ -17,6 +17,7 @@
   loop:
     - "{{ heco_root }}"
     - "{{ heco_data }}"
+    - "{{ heco_root }}/huobi-eco-chain"
     - "{{ heco_service_dir }}"
     - "{{ heco_data }}/logs"
 
@@ -26,13 +27,19 @@
 - name: "Download source code hecochain"
   ansible.builtin.git:
     repo: "{{ heco_repo }}"
-    dest: "{{ heco_root }}"
+    dest: "{{ heco_root }}/huobi-eco-chain"
     force: yes
+  become: yes
+  become_user: "{{ heco_user_name }}"
 
 - name: "Compile geth"
   make:
     chdir: "{{ heco_root }}/huobi-eco-chain"
     target: geth
+  environment:
+    PATH: "/opt/go/1.17/bin:{{ ansible_env.PATH }}"
+  become: yes
+  become_user: "{{ heco_user_name }}"
 
 - name: "Change permissions for geth"
   ansible.builtin.file:
@@ -41,9 +48,9 @@
     group: "{{ heco_user_name }}"
     mode: 0755
 
-- name: "Create config.toml"
+- name: "Create heco.toml"
   template:
-    src: "config.toml.j2"
+    src: "heco.toml.j2"
     dest: "{{ heco_config }}"
     owner: "{{ heco_user_name }}"
     group: "{{ heco_user_name }}"
