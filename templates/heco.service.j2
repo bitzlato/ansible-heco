@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 # run as root, set base_path in heco.toml
-ExecStart={{ heco_geth_path }} --config {{ heco_config }} --logpath '"{{ heco_data }}"/logs' 
+ExecStart={{ heco_geth_path }} --config {{ heco_config }} --logpath "{{ heco_data }}/logs" 
 Restart=on-failure
 
 # Specifies which signal to use when killing a service. Defaults to SIGTERM.
