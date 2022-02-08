@@ -1,6 +1,5 @@
 [Eth]
 SyncMode = "fast"
-DiscoveryURLs = []
 TrieCleanCacheRejournal= 300000000000
 
 [Eth.Miner]
@@ -40,7 +39,7 @@ InsecureUnlockAllowed = true
 NoUSB = true
 IPCPath = "geth.ipc"
 HTTPHost = "{{ heco_ip_host }}"
-HTTPPort = "{{ heco_httpport }}"
+HTTPPort = {{ heco_httpport }}
 HTTPCors = ["*"]
 HTTPVirtualHosts = ["*"]
 HTTPModules = ["eth", "net", "web3", "personal", "txpool", "parlia"]
@@ -52,7 +51,7 @@ WSModules = ['eth', 'net', 'web3']
 GraphQLVirtualHosts = ["localhost"]
 
 [Node.P2P]
-MaxPeers = 500
+MaxPeers = 200
 NoDiscovery = false
 
 ListenAddr = ":32668"

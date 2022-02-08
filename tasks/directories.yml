@@ -1,0 +1,15 @@
+---
+- name: "Creating directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ heco_user_name }}"
+    group: "{{ heco_user_name }}"
+    mode: 0755
+    recurse: yes
+  loop:
+    - "{{ heco_root }}"
+    - "{{ heco_data }}"
+    - "{{ heco_data }}/logs"
+    - "{{ heco_service_dir }}"
+    - "{{ heco_home }}/bin"

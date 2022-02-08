@@ -1,14 +1,16 @@
 ---
 heco_user_name: heco
 heco_sevice_name: heco
-heco_golang_version: "1.17"
+golang_path: ""
+heco_home: "/home/{{ heco_user_name }}"
 heco_root: "/home/{{ heco_user_name }}/heco"
 heco_data: "{{ heco_root}}/data"
 heco_config: "{{ heco_data }}/heco.toml"
-heco_geth_path: "{{ heco_root }}/huobi-eco-chain/build/bin/geth"
+heco_geth_path: "{{ heco_root }}/heco-chain/build/bin/geth"
 heco_service_dir: "/home/{{ heco_user_name }}/.config/systemd/user/"
 heco_ip_host: '127.0.0.1'
-heco_repo: https://github.com/HuobiGroup/huobi-eco-chain.git
+heco_repo: "https://github.com/stars-labs/heco-chain.git"
+heco_branch: master
 heco_httpport: 8545
 heco_wsport: 8546
 heco_service_enabled: 'No' # yes
