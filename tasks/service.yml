@@ -1,11 +1,8 @@
 ---
-- name: "Create {{ heco_sevice_name }} systemd service"
-  template:
-    src: heco.service.j2
-    dest: "{{ heco_service_dir }}/{{ heco_sevice_name }}.service"
-    mode: 0644
+- name: "Enabling linger for {{ heco_user_name }}"
+  command: "loginctl enable-linger {{ heco_user_name }}"
 
-- name: "Find uid of {{ heco_user_name }}"
+- name: "Finding uid of {{ heco_user_name }}"
   command: "id -u {{ heco_user_name }}"
   register: the_user_uid
   check_mode: no
@@ -13,19 +10,25 @@
   become: true
   become_user: "{{ heco_user_name }}"
 
-- name: "Determine XDG_RUNTIME_DIR"
+- name: "Determining XDG_RUNTIME_DIR"
   set_fact:
     xdg_runtime_dir: "/run/user/{{ the_user_uid.stdout }}"
   changed_when: false
   become: true
   become_user: "{{ heco_user_name }}"
 
-- name: "Update bashrc for {{ heco_user_name }}"
+- name: "Updating bashrc for {{ heco_user_name }}"
   lineinfile:
     path: "/home/{{ heco_user_name }}/.bashrc"
     line: "export XDG_RUNTIME_DIR=/run/user/{{ the_user_uid.stdout }}"
+  
+- name: "Creating {{ heco_sevice_name }} systemd service"
+  template:
+    src: heco.service.j2
+    dest: "{{ heco_service_dir }}/{{ heco_sevice_name }}.service"
+    mode: 0644
 
-- name: "Start and enable {{ heco_sevice_name }} service"
+- name: "Applying {{ heco_sevice_name }} Service Parameters"
   become: true
   become_user: "{{ heco_user_name }}"
   environment:

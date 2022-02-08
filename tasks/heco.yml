@@ -1,0 +1,42 @@
+---
+- name: "Cloning heco-chain branch {{ heco_branch }}"
+  git:
+    repo: "{{ heco_repo }}"
+    dest: "{{ heco_root }}/heco-chain"
+    force: yes
+    version: "{{ heco_branch }}"
+    single_branch: yes
+  become: yes
+  become_user: "{{ heco_user_name }}"
+
+- name: "Compiling geth"
+  make:
+    chdir: "{{ heco_root }}/heco-chain"
+    target: geth
+  environment:
+    PATH: "{{ golang_path }}"
+  become: yes
+  become_user: "{{ heco_user_name }}"
+
+- name: "Changing permissions for geth"
+  ansible.builtin.file:
+    path: "{{ heco_geth_path }}"
+    owner: "{{ heco_user_name }}"
+    group: "{{ heco_user_name }}"
+    mode: 0755
+
+- name: "Creating symlink for geth"
+  file:
+    src: "{{ heco_geth_path }}"
+    dest: "{{ heco_home }}/bin/geth"
+    state: link
+  become: true
+  become_user: "{{ heco_user_name }}"    
+
+- name: "Creating heco.toml"
+  template:
+    src: "heco.toml.j2"
+    dest: "{{ heco_config }}"
+    owner: "{{ heco_user_name }}"
+    group: "{{ heco_user_name }}"
+    mode: 0600
