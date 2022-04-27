@@ -1,0 +1,7 @@
+---
+- name: "Installing a List of Dependency Packages"
+  apt:
+    update_cache: yes
+    pkg:
+    - build-essential
+    - make
