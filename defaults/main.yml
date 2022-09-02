@@ -9,6 +9,7 @@ heco_config: "{{ heco_data }}/heco.toml"
 heco_geth_path: "{{ heco_root }}/heco-chain/build/bin/geth"
 heco_service_dir: "/home/{{ heco_user_name }}/.config/systemd/user/"
 heco_ip_host: '127.0.0.1'
+heco_port: 30003
 heco_repo: "https://github.com/stars-labs/heco-chain.git"
 heco_branch: master
 heco_httpport: 8545
