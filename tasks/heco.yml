@@ -5,7 +5,6 @@
     dest: "{{ heco_root }}/heco-chain"
     force: yes
     version: "{{ heco_branch }}"
-    single_branch: yes
   become: yes
   become_user: "{{ heco_user_name }}"
 
